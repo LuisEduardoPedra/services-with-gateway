@@ -4,7 +4,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/LuisEduardoPedra/services-with-gateway/service-auth/internal/core/auth"
+	"auth-service/internal/core/auth"
+
 	"github.com/gin-gonic/gin"
 )
 

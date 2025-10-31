@@ -1,9 +1,9 @@
 // Load environment variables from .env file
-// This replaces the 'loadEnv' function from your Go main.go
 require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
@@ -22,6 +22,19 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(express.json());
+
+const authServiceTarget = 'http://localhost:8081'; 
+
+app.use('/api/v1/login', createProxyMiddleware({
+  target: authServiceTarget,
+  changeOrigin: true, 
+  onProxyReq: (proxyReq, req, res) => {
+
+    console.log(`[Gateway] Proxying to Auth Service: ${req.method} ${req.path}`);
+  }
+}));
 
 app.get('/api/v1/health', (req, res) => {
   res.json({ status: 'UP', message: 'Gateway is running!' });
