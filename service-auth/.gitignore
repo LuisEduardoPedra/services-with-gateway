@@ -1,0 +1,10 @@
+# comuns
+node_modules/
+.env
+*.log
+dist/
+build/
+.vscode
+node_modules
+go.mod
+go.sum
