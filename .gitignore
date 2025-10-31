@@ -1,0 +1,8 @@
+# comuns
+node_modules/
+.env
+*.log
+dist/
+build/
+.vscode
+node_modules
