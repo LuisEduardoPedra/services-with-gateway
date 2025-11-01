@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 1. NodeJS Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+    image: api-gateway:latest
+    ports:
+      - "8080:8080" # <host_port>:<container_port>
+    env_file:
+      - ./api-gateway/.env
+    depends_on:
+      - auth-service
+      - analysis-service
+      - converter-service
+    restart: always 
+
+  # 2. Go Auth Service
+  auth-service:
+    build:
+      context: ./service-auth
+    image: auth-service:latest 
+    volumes:
+      - ./service-auth/.env:/root/.env
+      - ./credentials.json:/root/credentials.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/credentials.json
+    restart: always
+
+  # 3. Go Analysis Service
+  analysis-service:
+    build:
+      context: ./service-analysis
+    image: analysis-service:latest
+    restart: always
+
+  # 4. Go Converter Service
+  converter-service:
+    build:
+      context: ./service-converter
+    image: converter-service:latest
+    restart: always
