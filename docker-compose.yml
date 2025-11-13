@@ -7,7 +7,7 @@ services:
       context: ./api-gateway
     image: api-gateway:latest
     ports:
-      - "8080:8080" # <host_port>:<container_port>
+      - "8080:8080" 
     env_file:
       - ./api-gateway/.env
     depends_on:
